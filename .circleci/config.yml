@@ -85,8 +85,16 @@ jobs:
             - v1-dependencies-{{ checksum "pom.xml" }}
             - v1-dependencies-
       - run:
-          name: Maven package
+          name: Maven package eureka
           command: |
+            cd eureka
+            sudo chmod +x ./mvnw
+            ./mvnw -Dmaven.test.skip=true package
+      - run:
+          name: Maven package user-service
+          command: |
+            cd ..
+            cd user-service
             sudo chmod +x ./mvnw
             ./mvnw -Dmaven.test.skip=true package
       - save_cache:
