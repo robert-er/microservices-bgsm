@@ -9,6 +9,12 @@ import org.springframework.stereotype.Component;
 @Getter
 public class UserServiceConfig {
 
-    @Value("${userservice.api.endpoint}")
+    @Value("${userservice.api.endpoint}" + "user")
     private String userServiceEndpoint;
+
+    @Value("${userservice.api.endpoint}" + "item")
+    private String itemServiceEndpoint;
+
+    @Value("${userservice.api.endpoint}" + "itemcategory")
+    private String itemCategoryEndpoint;
 }
