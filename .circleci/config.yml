@@ -54,6 +54,10 @@ jobs:
             | sed -e "s/.java/,/"; \
             done | tr -d '\r\n') \
             -e test verify
+      - store_test_results:
+          path: eureka/target/surefire-reports
+      - store_artifacts:
+          path: eureka/target/site/jacoco/index.html
       - run:
           name: Run tests user-service
           command: |
@@ -67,9 +71,9 @@ jobs:
             done | tr -d '\r\n') \
             -e test verify
       - store_test_results:
-          path: target/surefire-reports
+          path: user-service/target/surefire-reports
       - store_artifacts:
-          path: target/site/jacoco/index.html
+          path: user-service/target/site/jacoco/index.html
 
   build:
     docker:
@@ -102,7 +106,8 @@ jobs:
       - persist_to_workspace:
           root: ./
           paths:
-            - target/
+            - eureka/target/
+            - user-service/target/
 
 workflows:
   version: 2
