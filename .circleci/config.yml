@@ -43,11 +43,25 @@ jobs:
                   mysql -h 127.0.0.1 -u robert -robertpassword bgsm < sql-data/dummy.sql
                   mysql -h 127.0.0.1 -u robert -robertpassword --execute="SELECT * FROM test_db.Persons"
       - run:
-          name: Run tests
+          name: Run tests eureka
           command: |
+            cd eureka
             sudo chmod +x ./mvnw
             ./mvnw \
-            -Dtest=$(for files in $(circleci tests glob "**/src/test/**/**.java" \
+            -Dtest=$(for files in $(circleci tests glob "src/test/**/**.java" \
+            | circleci tests split --split-by=timings); \
+            do basename $file \
+            | sed -e "s/.java/,/"; \
+            done | tr -d '\r\n') \
+            -e test verify
+      - run:
+          name: Run tests user-service
+          command: |
+            ce ..
+            cd user-service
+            sudo chmod +x ./mvnw
+            ./mvnw \
+            -Dtest=$(for files in $(circleci tests glob "src/test/**/**.java" \
             | circleci tests split --split-by=timings); \
             do basename $file \
             | sed -e "s/.java/,/"; \
