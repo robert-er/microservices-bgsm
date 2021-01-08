@@ -53,4 +53,9 @@ public class UserController {
                 .collect(Collectors.toSet()));
         return userMapper.mapToAppUserDto(userService.save(user));
     }
+
+    @PostMapping
+    public AppUserDto createUser(@RequestBody AppUserDto appUserDto) {
+        return userMapper.mapToAppUserDto(userService.save(userMapper.mapToAppUser(appUserDto)));
+    }
 }

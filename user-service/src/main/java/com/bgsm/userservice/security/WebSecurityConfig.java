@@ -2,7 +2,9 @@ package com.bgsm.userservice.security;
 
 import com.bgsm.userservice.model.AppUser;
 import com.bgsm.userservice.model.ERole;
+import com.bgsm.userservice.model.ItemCategory;
 import com.bgsm.userservice.repository.AppUserRepository;
+import com.bgsm.userservice.repository.ItemCategoryRepository;
 import com.bgsm.userservice.security.jwt.AuthEntryPointJwt;
 import com.bgsm.userservice.security.jwt.AuthTokenFilter;
 import com.bgsm.userservice.service.RoleService;
@@ -33,6 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsServiceImpl userDetailsService;
     private final AppUserRepository appUserRepository;
+    private final ItemCategoryRepository itemCategoryRepository;
     private final RoleService roleService;
     private final AuthEntryPointJwt unauthorizedHandler;
 
@@ -67,6 +70,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void get() {
         createRoles();
         createPredefinedTestUsers();
+        createPredefineItemCategories();
     }
 
     private void createRoles() {
@@ -95,6 +99,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             AppUser appModerator = new AppUser("moderator", passwordEncoder().encode("moderator"),
                     "email@moderator.com", Collections.singleton(roleService.getRole(ERole.ROLE_MODERATOR)));
             appUserRepository.save(appModerator);
+        }
+    }
+
+    private void createPredefineItemCategories() {
+        createItemCategory("rpg");
+        createItemCategory("adventure");
+        createItemCategory("strategy");
+        createItemCategory("card games");
+        createItemCategory("educational");
+    }
+
+    private void createItemCategory(String name) {
+        if(itemCategoryRepository.findByName(name) == null ||
+                !itemCategoryRepository.findByName(name).isPresent()) {
+            ItemCategory itemCategory = new ItemCategory(name);
+            itemCategoryRepository.save(itemCategory);
         }
     }
 }
