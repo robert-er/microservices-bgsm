@@ -9,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 public class ItemDto {
 
+    private Long id;
     private String name;
     private String description;
     private double minPlayers;

@@ -28,6 +28,12 @@ public class ItemController {
         return itemMapper.mapToItemDto(itemService.findById(id));
     }
 
+    @GetMapping(")/useritems/{userId}")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public List<ItemDto> getUserItems(@PathVariable Long userId) {
+        return itemMapper.mapToItemDtoList(itemService.findByUserId(userId));
+    }
+
     @GetMapping
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public List<ItemDto> getAll() {

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,5 +29,11 @@ public class OfferService {
 
     public List<Offer> getAll() {
         return repository.findAll();
+    }
+
+    public List<Offer> findByCategory(Long categoryId) {
+        return repository.findAll().stream()
+                .filter(offer -> offer.getItem().getCategory().getId().equals(categoryId))
+                .collect(Collectors.toList());
     }
 }
