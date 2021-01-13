@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
 @Entity(name = "items")
 @Getter
@@ -20,10 +19,10 @@ public class Item {
 
     private String name;
     private String description;
-    private int minPlayers;
-    private int maxPlayers;
+    private double minPlayers;
+    private double maxPlayers;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "category_id")
     private ItemCategory category;
 
@@ -33,7 +32,7 @@ public class Item {
 
     @Builder
     public Item(String name, String description,
-                int minPlayers, int maxPlayers,
+                double minPlayers, double maxPlayers,
                 ItemCategory category, AppUser user) {
         this.name = name;
         this.description = description;

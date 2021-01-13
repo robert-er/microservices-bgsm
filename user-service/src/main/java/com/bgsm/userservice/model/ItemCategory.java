@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Table(uniqueConstraints = {
@@ -25,9 +26,10 @@ public class ItemCategory {
 
     @OneToMany(targetEntity = Item.class,
             mappedBy = "category",
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.MERGE,
             fetch = FetchType.LAZY)
-    private List<Item> items;
+    private List<Item> items = new ArrayList<>();
+
     @Builder
     public ItemCategory(String name) {
         this.name = name;

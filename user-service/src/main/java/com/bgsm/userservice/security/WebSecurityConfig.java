@@ -63,6 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // Allow all requests without logging in to acces signup page
                 .antMatchers("/signup").permitAll()
                 .antMatchers("/").permitAll()
+                .antMatchers("/additem").authenticated()
                 // Configure the login page.
                 .and().formLogin().loginPage("/" + LoginView.ROUTE).permitAll()
 

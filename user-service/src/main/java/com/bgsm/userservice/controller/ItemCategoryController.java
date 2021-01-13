@@ -43,7 +43,7 @@ public class ItemCategoryController {
     }
 
     @PostMapping
-  //  @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public ItemCategoryDto createCategory(@RequestBody ItemCategoryDto itemCategoryDto) {
         return itemCategoryMapper
                 .mapToItemCategoryDto(itemCategoryService.save(itemCategoryMapper.mapToItemCategory(itemCategoryDto)));

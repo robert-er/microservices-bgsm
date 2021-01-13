@@ -1,11 +1,9 @@
 package com.bgsm.userservice.service;
 
 import com.bgsm.userservice.exception.NotFoundException;
-import com.bgsm.userservice.model.AppUser;
 import com.bgsm.userservice.model.Item;
 import com.bgsm.userservice.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
