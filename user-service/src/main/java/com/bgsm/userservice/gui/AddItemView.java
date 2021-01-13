@@ -4,11 +4,9 @@ import com.bgsm.userservice.dto.ItemDto;
 import com.bgsm.userservice.mapper.ItemMapper;
 import com.bgsm.userservice.service.ItemCategoryService;
 import com.bgsm.userservice.service.ItemService;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -22,7 +20,6 @@ import com.vaadin.flow.data.validator.StringLengthValidator;
 import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.dom.ElementFactory;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.VaadinSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -88,7 +85,7 @@ public class AddItemView extends VerticalLayout {
         String username = userDetails.getUsername();
 
         Label welcomeLabel = new Label();
-        welcomeLabel.setText("Hi " + username + ". Add new item");
+        welcomeLabel.setText("Hi " + username.toUpperCase() + ". Add new item");
         binder.forField(name)
                 .withValidator(new StringLengthValidator(
                         "Please add the name", 1, null))

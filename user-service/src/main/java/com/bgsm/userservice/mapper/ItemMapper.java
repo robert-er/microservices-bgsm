@@ -30,6 +30,7 @@ public class ItemMapper {
 
     public ItemDto mapToItemDto(Item item) {
         return ItemDto.builder()
+                .id(item.getId())
                 .name(item.getName())
                 .description(item.getDescription())
                 .minPlayers(item.getMinPlayers())
