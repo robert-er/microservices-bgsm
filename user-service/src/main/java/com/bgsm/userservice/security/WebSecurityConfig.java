@@ -1,28 +1,19 @@
 package com.bgsm.userservice.security;
 
-import com.bgsm.userservice.model.AppUser;
-import com.bgsm.userservice.model.ERole;
-import com.bgsm.userservice.model.ItemCategory;
-import com.bgsm.userservice.repository.AppUserRepository;
-import com.bgsm.userservice.repository.ItemCategoryRepository;
-import com.bgsm.userservice.security.jwt.AuthEntryPointJwt;
+import com.bgsm.userservice.gui.LoginView;
 import com.bgsm.userservice.security.jwt.AuthTokenFilter;
-import com.bgsm.userservice.service.RoleService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.event.EventListener;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import java.util.Collections;
 
 @Configuration
 @RequiredArgsConstructor
@@ -32,16 +23,19 @@ import java.util.Collections;
         // jsr250Enabled = true,
         prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
+    private static final String LOGOUT_SUCCESS_URL = "/";
     private final UserDetailsServiceImpl userDetailsService;
-    private final AppUserRepository appUserRepository;
-    private final ItemCategoryRepository itemCategoryRepository;
-    private final RoleService roleService;
-    private final AuthEntryPointJwt unauthorizedHandler;
+
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
         return new AuthTokenFilter();
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
     @Override
@@ -51,70 +45,69 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin().permitAll();
+        http.csrf().disable()
 
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+                // Register our CustomRequestCache, that saves unauthorized access attempts, so
+                // the user is redirected after login.
+                .requestCache().requestCache(requestCache())
+
+                // Restrict access to our application.
+                .and().authorizeRequests()
+
+                // Allow all flow internal requests.
+                .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
+
+                // Allow all requests by logged in users.
+                .anyRequest().authenticated()
+
+                // Configure the login page.
+                .and().formLogin().loginPage("/" + LoginView.ROUTE).permitAll()
+
+                // Configure logout
+                .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL);
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers(
+                // Vaadin Flow static resources
+                "/VAADIN/**",
+
+                // the standard favicon URI
+                "/favicon.ico",
+
+                // the robots exclusion standard
+                "/robots.txt",
+
+                // web application manifest
+                "/manifest.webmanifest",
+                "/sw.js",
+                "/offline-page.html",
+
+                // icons and images
+                "/icons/**",
+                "/images/**",
+
+                // (development mode) static resources
+                "/frontend/**",
+
+                // (development mode) webjars
+                "/webjars/**",
+
+                // (development mode) H2 debugging console
+                "/h2-console/**",
+
+                // (production mode) static resources
+                "/frontend-es5/**", "/frontend-es6/**");
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void get() {
-        createRoles();
-        createPredefinedTestUsers();
-        createPredefineItemCategories();
-    }
-
-    private void createRoles() {
-        roleService.getRole(ERole.ROLE_USER);
-        roleService.getRole(ERole.ROLE_ADMIN);
-        roleService.getRole(ERole.ROLE_MODERATOR);
-    }
-
-    private void createPredefinedTestUsers() {
-        if(appUserRepository.findByUsername("user") == null ||
-                !appUserRepository.findByUsername("user").isPresent()) {
-            AppUser appUser = new AppUser("user", passwordEncoder().encode("user"),
-                    "email@user.com", Collections.singleton(roleService.getRole(ERole.ROLE_USER)));
-            appUserRepository.save(appUser);
-        }
-
-        if(appUserRepository.findByUsername("admin") == null ||
-                !appUserRepository.findByUsername("admin").isPresent()) {
-            AppUser appAdmin = new AppUser("admin", passwordEncoder().encode("admin"),
-                    "email@admin.com", Collections.singleton(roleService.getRole(ERole.ROLE_ADMIN)));
-            appUserRepository.save(appAdmin);
-        }
-
-        if(appUserRepository.findByUsername("moderator") == null ||
-                !appUserRepository.findByUsername("moderator").isPresent()) {
-            AppUser appModerator = new AppUser("moderator", passwordEncoder().encode("moderator"),
-                    "email@moderator.com", Collections.singleton(roleService.getRole(ERole.ROLE_MODERATOR)));
-            appUserRepository.save(appModerator);
-        }
-    }
-
-    private void createPredefineItemCategories() {
-        createItemCategory("rpg");
-        createItemCategory("adventure");
-        createItemCategory("strategy");
-        createItemCategory("card games");
-        createItemCategory("educational");
-    }
-
-    private void createItemCategory(String name) {
-        if(itemCategoryRepository.findByName(name) == null ||
-                !itemCategoryRepository.findByName(name).isPresent()) {
-            ItemCategory itemCategory = new ItemCategory(name);
-            itemCategoryRepository.save(itemCategory);
-        }
+    @Bean
+    public CustomRequestCache requestCache() {
+        return new CustomRequestCache();
     }
 }

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.ast.Not;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,6 +16,7 @@ import java.util.List;
 public class ItemService {
 
     private final ItemRepository repository;
+    private final AppUserService appUserService;
 
     public Item findById(Long id) throws NotFoundException {
         return repository.findById(id).orElseThrow(() -> new NotFoundException("item not found, id: " + id));
@@ -30,5 +32,9 @@ public class ItemService {
 
     public List<Item> getAll() {
         return repository.findAll();
+    }
+
+    public List<Item> findByUserId(Long id) {
+        return repository.findByUser(appUserService.findById(id)).orElse(new ArrayList<>());
     }
 }
