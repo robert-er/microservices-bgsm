@@ -27,8 +27,8 @@ public class LoginView extends VerticalLayout {
                      CustomRequestCache requestCache) {
 
 		login.setOpened(true);
-		login.setTitle("Board Games Share Market");
-		login.setDescription("Login Overlay Example");
+		login.setTitle("BGSM");
+		login.setDescription("Board Games Share Market");
 
 		add(login);
 

@@ -58,8 +58,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
 
                 // Allow all requests by logged in users.
-                .anyRequest().authenticated()
+             //   .anyRequest().authenticated()
 
+                // Allow all requests without logging in to acces signup page
+                .antMatchers("/signup").permitAll()
+                .antMatchers("/").permitAll()
                 // Configure the login page.
                 .and().formLogin().loginPage("/" + LoginView.ROUTE).permitAll()
 
