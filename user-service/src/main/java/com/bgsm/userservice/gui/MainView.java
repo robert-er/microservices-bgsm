@@ -27,6 +27,9 @@ public class MainView extends VerticalLayout {
         Element addOffer = ElementFactory.createAnchor("addoffer", "Add new offer");
         getElement().appendChild(addOffer);
 
+        Element adminPanel = ElementFactory.createAnchor("adminpanel", "Administration Panel");
+        getElement().appendChild(adminPanel);
+
         Element logoutLink = ElementFactory.createAnchor("logout", "Logout");
         getElement().appendChild(logoutLink);
     }

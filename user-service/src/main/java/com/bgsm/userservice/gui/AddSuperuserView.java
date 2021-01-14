@@ -5,8 +5,10 @@ import com.bgsm.userservice.mapper.AppUserMapper;
 import com.bgsm.userservice.model.ERole;
 import com.bgsm.userservice.service.AppUserService;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
@@ -22,22 +24,31 @@ import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.dom.ElementFactory;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collections;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-@Route("signup")
-public class SignUpView extends VerticalLayout {
+@Route("addsuperuser")
+@Secured("ROLE_ADMIN")
+public class AddSuperuserView extends VerticalLayout {
 
     @Autowired
-    public SignUpView(AppUserService userService, AppUserMapper userMapper) {
+    public AddSuperuserView(AppUserService userService, AppUserMapper userMapper) {
         FormLayout layoutWithBinder = new FormLayout();
         Binder<AppUserDto> binder = new Binder<>();
         AppUserDto appUserDto = new AppUserDto();
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String loggedUsername = userDetails.getUsername();
+
         Label welcomeLabel = new Label();
-        welcomeLabel.setText("Welcome! Please register");
+        welcomeLabel.setText("Hi " + loggedUsername.toUpperCase() + ". Add new user");
 
         TextField username = new TextField();
         username.setValueChangeMode(ValueChangeMode.EAGER);
@@ -47,6 +58,16 @@ public class SignUpView extends VerticalLayout {
         PasswordField password = new PasswordField();
         password.setValueChangeMode(ValueChangeMode.EAGER);
 
+        MenuBar menuBar = new MenuBar();
+        MenuItem userRole = menuBar.addItem("Role");
+        List<String> roles = getRoles();
+        TextField selectedRole = new TextField();
+
+        roles.forEach(role -> userRole.getSubMenu().addItem(role,
+                e -> {selectedRole.setValue(role);
+                    userRole.setText(role);
+                }));
+
         Label infoLabel = new Label();
         Button save = new Button("Save");
         Button reset = new Button("Reset");
@@ -54,6 +75,7 @@ public class SignUpView extends VerticalLayout {
         layoutWithBinder.addFormItem(username, "Username");
         layoutWithBinder.addFormItem(email, "E-mail");
         layoutWithBinder.addFormItem(password, "Password");
+        layoutWithBinder.addFormItem(menuBar, "Role");
 
         HorizontalLayout actions = new HorizontalLayout();
         actions.add(save, reset);
@@ -76,7 +98,7 @@ public class SignUpView extends VerticalLayout {
 
         save.addClickListener(event -> {
             if (binder.writeBeanIfValid(appUserDto)) {
-                appUserDto.setRoles(Collections.singleton(ERole.ROLE_USER));
+                appUserDto.setRoles(Collections.singleton(ERole.valueOf(selectedRole.getValue())));
 
                 AppUserDto returnedUserDto = userMapper.mapToAppUserDto(userService.save(userMapper.mapToAppUser(appUserDto)));
                 infoLabel.setText("User " + returnedUserDto.getUsername() + " has been created.");
@@ -95,9 +117,16 @@ public class SignUpView extends VerticalLayout {
             binder.readBean(null);
             infoLabel.setText("");
         });
-        add(welcomeLabel, layoutWithBinder, actions, infoLabel);
+        add(layoutWithBinder, actions, infoLabel);
 
         Element mainView = ElementFactory.createAnchor("", "Main Page");
         getElement().appendChild(mainView);
+    }
+
+    private List<String> getRoles() {
+        return Stream.of(ERole.values())
+                .map(ERole::name)
+                .collect(Collectors.toList());
+
     }
 }

@@ -64,6 +64,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //Allow all requests by logged in users to specific endpoints.
                 .antMatchers("/additem").authenticated()
                 .antMatchers("/addoffer").authenticated()
+                .antMatchers("/adminpanel").hasRole("ADMIN")
+                .antMatchers("/addsuperuser").hasRole("ADMIN")
+
                 // Configure the login page.
                 .and().formLogin().loginPage("/" + LoginView.ROUTE).permitAll()
 
