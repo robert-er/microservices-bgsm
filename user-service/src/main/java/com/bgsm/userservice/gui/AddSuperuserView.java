@@ -119,6 +119,9 @@ public class AddSuperuserView extends VerticalLayout {
         });
         add(layoutWithBinder, actions, infoLabel);
 
+        Element adminPanelView = ElementFactory.createAnchor("adminpanel", "Administration Panel");
+        getElement().appendChild(adminPanelView);
+
         Element mainView = ElementFactory.createAnchor("", "Main Page");
         getElement().appendChild(mainView);
     }
