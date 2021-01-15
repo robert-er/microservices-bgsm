@@ -2,11 +2,10 @@ package com.bgsm.userservice.gui.forms;
 
 import com.bgsm.userservice.dto.ItemDto;
 import com.bgsm.userservice.mapper.ItemMapper;
-import com.bgsm.userservice.service.AppUserService;
 import com.bgsm.userservice.service.ItemCategoryService;
 import com.bgsm.userservice.service.ItemService;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Label;
@@ -63,7 +62,7 @@ public class ItemForm extends FormLayout {
         ItemDto itemDto = new ItemDto();
 
         TextField selectedCategoryField = new TextField();
-        categories.forEach(element -> selectedCategoryField.setValue(element));
+        categories.forEach(selectedCategoryField::setValue);
 
         Binder<ItemDto> binder = new Binder<>();
         FormLayout layoutWithBinder = new FormLayout();
@@ -105,6 +104,7 @@ public class ItemForm extends FormLayout {
 
                 ItemDto returnedItemDto = itemMapper.mapToItemDto(itemService.save(itemMapper.mapToItem(itemDto)));
                 infoLabel.setText("Item:  " + returnedItemDto.getName() + " has been created.");
+                UI.getCurrent().getPage().reload();
             } else {
                 BinderValidationStatus<ItemDto> validate = binder.validate();
                 String errorText = validate.getFieldValidationStatuses()

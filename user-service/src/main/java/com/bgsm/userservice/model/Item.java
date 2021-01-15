@@ -1,12 +1,13 @@
 package com.bgsm.userservice.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.Objects;
 
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = "name")
+})
 @Entity(name = "items")
 @Getter
 @Setter
@@ -40,5 +41,21 @@ public class Item {
         this.maxPlayers = maxPlayers;
         this.category = category;
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return Double.compare(item.minPlayers, minPlayers) == 0 && Double.compare(item.maxPlayers, maxPlayers) == 0 &&
+                Objects.equals(name, item.name) && Objects.equals(description, item.description) &&
+                Objects.equals(category, item.category) &&
+                Objects.equals(user, item.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description, minPlayers, maxPlayers, category, user);
     }
 }

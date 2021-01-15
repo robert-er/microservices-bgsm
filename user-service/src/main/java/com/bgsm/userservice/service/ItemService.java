@@ -35,4 +35,9 @@ public class ItemService {
     public List<Item> findByUserId(Long id) {
         return repository.findByUser(appUserService.findById(id)).orElse(new ArrayList<>());
     }
+
+    public Item findByName(String name) {
+        return repository.findByName(name)
+                .orElseThrow(() -> new NotFoundException("Item with name " + name + " not found"));
+    }
 }
