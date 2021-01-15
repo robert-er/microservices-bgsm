@@ -28,6 +28,7 @@ public class AdminPanelView extends VerticalLayout {
         Element userLink = ElementFactory.createAnchor("addsuperuser", "Add new superuser");
         getElement().appendChild(userLink);
 
+        Element mainView = ElementFactory.createAnchor("", "Main Page");
+        getElement().appendChild(mainView);
     }
-
 }
