@@ -22,6 +22,7 @@ public class OfferMapper {
                 .dateTo(offerDto.getDateTo())
                 .location(offerDto.getLocation())
                 .price(offerDto.getPrice())
+                .status(offerDto.getStatus())
                 .build();
     }
 
@@ -33,6 +34,7 @@ public class OfferMapper {
                 .dateTo(offer.getDateTo())
                 .location(offer.getLocation())
                 .price(offer.getPrice())
+                .status(offer.getStatus())
                 .build();
     }
 

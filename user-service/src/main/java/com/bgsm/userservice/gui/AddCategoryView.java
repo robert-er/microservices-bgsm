@@ -60,7 +60,7 @@ public class AddCategoryView extends VerticalLayout {
         binder.forField(name)
                 .withValidator(new StringLengthValidator(
                         "Please add the category name", 1, null))
-                .bind(ItemCategoryDto::getName, ItemCategoryDto::setName);
+                .bind(ItemCategoryDto::getName, (itemCategoryDto1, name1) -> itemCategoryDto1.setName(name1.toLowerCase()));
 
         Label infoLabel = new Label();
 

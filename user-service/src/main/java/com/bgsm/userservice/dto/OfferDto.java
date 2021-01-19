@@ -1,5 +1,6 @@
 package com.bgsm.userservice.dto;
 
+import com.bgsm.userservice.model.EOfferStatus;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -18,4 +19,5 @@ public class OfferDto {
     private LocalDate dateTo;
     private String location;
     private BigDecimal price;
+    private EOfferStatus status;
 }

@@ -2,10 +2,14 @@ package com.bgsm.userservice.gui.forms;
 
 import com.bgsm.userservice.dto.ItemDto;
 import com.bgsm.userservice.dto.OfferDto;
+import com.bgsm.userservice.dto.OrderDto;
 import com.bgsm.userservice.mapper.ItemMapper;
 import com.bgsm.userservice.mapper.OfferMapper;
+import com.bgsm.userservice.mapper.OrderMapper;
+import com.bgsm.userservice.service.AppUserService;
 import com.bgsm.userservice.service.ItemService;
 import com.bgsm.userservice.service.OfferService;
+import com.bgsm.userservice.service.OrderService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -13,6 +17,9 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public class OfferViewForm extends FormLayout {
 
@@ -21,7 +28,9 @@ public class OfferViewForm extends FormLayout {
     @Autowired
     public OfferViewForm(OfferMapper offerMapper, OfferService offerService,
                          ItemMapper itemMapper, ItemService itemService,
-                         String offerId) {
+                         String offerId,
+                         OrderService orderService, OrderMapper orderMapper,
+                         AppUserService userService) {
         OfferDto offerDto = offerMapper.mapToOfferDto(offerService.findById(Long.valueOf(offerId)));
         ItemDto itemDto = itemMapper.mapToItemDto(itemService.findById(offerDto.getItemId()));
 
@@ -87,10 +96,29 @@ public class OfferViewForm extends FormLayout {
         price.setReadOnly(true);
         price.setMinWidth(CELL_WIDTH);
 
+        Label infoLabel = new Label();
+
         Button createOrder = new Button("Order");
+        createOrder.addClickListener(e -> {
+            OrderDto returnedOrder = orderMapper
+                    .mapToOrderDto(orderService
+                            .createOrderFromOffer(Long.valueOf(offerId), getCurrentUserId(userService)));
+            infoLabel.setText("Order id:  " + returnedOrder.getOfferId() + " created.");
+        });
 
         layout.add(name, description, minPlayers, maxPlayers, category, username,
-                dateFrom, dateTo, location, price, createOrder);
+                dateFrom, dateTo, location, price, createOrder, infoLabel);
         add(layout);
+    }
+
+    private Long getCurrentUserId(AppUserService userService) {
+        String username = getCurrentUsername();
+        return userService.findByName(username).getId();
+    }
+
+    private String getCurrentUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return userDetails.getUsername();
     }
 }

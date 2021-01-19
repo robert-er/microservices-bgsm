@@ -5,6 +5,7 @@ import com.bgsm.userservice.dto.OfferDto;
 import com.bgsm.userservice.gui.forms.MainMenuBar;
 import com.bgsm.userservice.mapper.ItemMapper;
 import com.bgsm.userservice.mapper.OfferMapper;
+import com.bgsm.userservice.model.EOfferStatus;
 import com.bgsm.userservice.service.AppUserService;
 import com.bgsm.userservice.service.ItemService;
 import com.bgsm.userservice.service.OfferService;
@@ -146,6 +147,7 @@ public class AddOfferView extends VerticalLayout {
         save.addClickListener(event -> {
             if (binder.writeBeanIfValid(offerDto)) {
                 offerDto.setItemId(itemId[0]);
+                offerDto.setStatus(EOfferStatus.ACTIVE);
 
                 if(bigDecimalField.isEmpty()) {
                     offerDto.setPrice(BigDecimal.ZERO);

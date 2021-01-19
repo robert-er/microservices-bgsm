@@ -4,6 +4,7 @@ import com.bgsm.userservice.dto.ItemDto;
 import com.bgsm.userservice.dto.OfferDto;
 import com.bgsm.userservice.mapper.ItemMapper;
 import com.bgsm.userservice.mapper.OfferMapper;
+import com.bgsm.userservice.model.EOfferStatus;
 import com.bgsm.userservice.service.ItemService;
 import com.bgsm.userservice.service.OfferService;
 import com.vaadin.flow.component.Text;
@@ -129,6 +130,7 @@ public class AddOfferForm extends FormLayout {
         save.addClickListener(event -> {
             if (binder.writeBeanIfValid(offerDto)) {
                 offerDto.setItemId(itemId[0]);
+                offerDto.setStatus(EOfferStatus.ACTIVE);
 
                 if(bigDecimalField.isEmpty()) {
                     offerDto.setPrice(BigDecimal.ZERO);
