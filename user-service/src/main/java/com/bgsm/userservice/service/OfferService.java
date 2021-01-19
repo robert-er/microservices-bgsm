@@ -32,9 +32,15 @@ public class OfferService {
         return repository.findAll();
     }
 
-    public List<Offer> findByCategory(Long categoryId) {
+    public List<Offer> findByCategoryId(Long categoryId) {
         return repository.findAll().stream()
                 .filter(offer -> offer.getItem().getCategory().getId().equals(categoryId))
+                .collect(Collectors.toList());
+    }
+
+    public List<Offer> findByCategoryName(String categoryName) {
+        return repository.findAll().stream()
+                .filter(offer -> offer.getItem().getCategory().getName().equals(categoryName))
                 .collect(Collectors.toList());
     }
 

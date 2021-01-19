@@ -35,7 +35,7 @@ public class OfferController {
     @GetMapping("/category/{categoryId}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public List<OfferDto> getByCategoryId(@PathVariable Long categoryId) {
-        return offerMapper.mapToOfferDtoList(offerService.findByCategory(categoryId));
+        return offerMapper.mapToOfferDtoList(offerService.findByCategoryId(categoryId));
     }
 
     @DeleteMapping("/{id}")

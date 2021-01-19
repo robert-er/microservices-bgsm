@@ -35,11 +35,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class OfferForm extends FormLayout {
+public class AddOfferForm extends FormLayout {
 
     @Autowired
-    public OfferForm(ItemService itemService, ItemMapper itemMapper, Long userId,
-                     OfferMapper offerMapper, OfferService offerService) {
+    public AddOfferForm(ItemService itemService, ItemMapper itemMapper, Long userId,
+                        OfferMapper offerMapper, OfferService offerService) {
         Label welcomeLabel = new Label();
         welcomeLabel.setText("Add new offer");
 

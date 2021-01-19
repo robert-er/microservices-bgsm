@@ -7,8 +7,10 @@ import com.bgsm.userservice.service.ItemService;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -49,8 +51,8 @@ public class ItemForm extends FormLayout {
         maxPlayers.setMin(1);
         maxPlayers.setMax(100);
 
-        ComboBox<String> category = new ComboBox<>();
-        category.setItems(categories);
+        MenuBar menuBar = new MenuBar();
+        MenuItem category = menuBar.addItem("Category");
 
         Button save = new Button("Save");
         Button reset = new Button("Reset");
@@ -62,7 +64,9 @@ public class ItemForm extends FormLayout {
         ItemDto itemDto = new ItemDto();
 
         TextField selectedCategoryField = new TextField();
-        categories.forEach(selectedCategoryField::setValue);
+        categories.forEach(element -> category.getSubMenu().addItem(element,
+                e -> {selectedCategoryField.setValue(element);
+                    category.setText(element);}));
 
         Binder<ItemDto> binder = new Binder<>();
         FormLayout layoutWithBinder = new FormLayout();
@@ -71,7 +75,7 @@ public class ItemForm extends FormLayout {
         layoutWithBinder.addFormItem(description, "Description");
         layoutWithBinder.addFormItem(minPlayers, "Min players");
         layoutWithBinder.addFormItem(maxPlayers, "Max players");
-        layoutWithBinder.addFormItem(category, "Category");
+        layoutWithBinder.addFormItem(menuBar, "Category");
         layoutWithBinder.add(actions);
         layoutWithBinder.add(infoLabel);
 

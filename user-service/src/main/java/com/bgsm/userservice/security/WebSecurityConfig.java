@@ -67,8 +67,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/adminpanel").hasRole("ADMIN")
                 .antMatchers("/addsuperuser").hasRole("ADMIN")
                 .antMatchers("/addcategory").hasRole("MODERATOR")
-                .antMatchers("/useritems").hasRole("USER")
-                .antMatchers("/useroffers").hasRole("USER")
+                .antMatchers("/useritems").authenticated()
+                .antMatchers("/useroffers").authenticated()
 
                 // Configure the login page.
                 .and().formLogin().loginPage("/" + LoginView.ROUTE).permitAll()

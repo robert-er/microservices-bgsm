@@ -1,22 +1,26 @@
 package com.bgsm.userservice.gui.forms;
 
-import com.bgsm.userservice.gui.AddItemView;
-import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.menubar.MenuBar;
-import com.vaadin.flow.component.page.Page;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.dom.ElementFactory;
-import com.vaadin.flow.router.RouterLink;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class MainMenuBar extends FormLayout {
 
     @Autowired
     public MainMenuBar() {
+        HorizontalLayout headerLayout = new HorizontalLayout();
+        Html header = new Html("<a href=\"/\" style=\"font-size: 30px\">BOARD GAMES SHARING MARKET</h3>");
+        headerLayout.add(header);
+        headerLayout.setSizeFull();
 
+        HorizontalLayout menuLayout = new HorizontalLayout();
         MenuBar menuBar = new MenuBar();
         menuBar.setOpenOnHover(true);
 
@@ -66,7 +70,13 @@ public class MainMenuBar extends FormLayout {
         logoutLink.getStyle().set("text-decoration", "none");
         MenuItem logoutMenu = menuBar.addItem("");
         logoutMenu.  getElement().appendChild(logoutLink);
+        menuBar.setSizeFull();
 
-        add(menuBar);
+        menuLayout.add(menuBar);
+        menuLayout.setSizeFull();
+
+        VerticalLayout layout = new VerticalLayout();
+        layout.add(headerLayout, menuLayout);
+        add(layout);
     }
 }

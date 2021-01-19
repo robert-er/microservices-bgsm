@@ -4,7 +4,7 @@ import com.bgsm.userservice.dto.ItemDto;
 import com.bgsm.userservice.dto.OfferDto;
 import com.bgsm.userservice.gui.forms.ItemForm;
 import com.bgsm.userservice.gui.forms.MainMenuBar;
-import com.bgsm.userservice.gui.forms.OfferForm;
+import com.bgsm.userservice.gui.forms.AddOfferForm;
 import com.bgsm.userservice.mapper.ItemMapper;
 import com.bgsm.userservice.mapper.OfferMapper;
 import com.bgsm.userservice.service.AppUserService;
@@ -200,7 +200,7 @@ public class UserOffersView extends VerticalLayout {
 
         add(validationStatus, grid);
 
-        OfferForm form = new OfferForm(itemService, itemMapper, userId, offerMapper, offerService);
+        AddOfferForm form = new AddOfferForm(itemService, itemMapper, userId, offerMapper, offerService);
         HorizontalLayout mainContent = new HorizontalLayout(grid, form);
         mainContent.setSizeFull();
         grid.setSizeFull();

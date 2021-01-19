@@ -17,7 +17,7 @@ public class CategoryForm extends FormLayout {
         List<String> categories = getCategoryList(itemCategoryService);
 
         for(String category : categories) {
-            Element element = ElementFactory.createAnchor(category, category);
+            Element element = ElementFactory.createAnchor("category/" + category, category);
             getElement().appendChild(element);
         }
     }
