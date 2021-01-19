@@ -2,6 +2,7 @@ package com.bgsm.userservice.gui;
 
 import com.bgsm.userservice.dto.ItemDto;
 import com.bgsm.userservice.gui.forms.ItemForm;
+import com.bgsm.userservice.gui.forms.MainMenuBar;
 import com.bgsm.userservice.mapper.ItemMapper;
 import com.bgsm.userservice.service.AppUserService;
 import com.bgsm.userservice.service.ItemCategoryService;
@@ -36,6 +37,10 @@ public class UserItemsView extends VerticalLayout {
     @Autowired
     public UserItemsView(ItemService itemService, ItemMapper itemMapper, AppUserService userService,
                          ItemCategoryService itemCategoryService) {
+        MainMenuBar mainMenuBar = new MainMenuBar();
+        HorizontalLayout menuLayout = new HorizontalLayout();
+        menuLayout.add(mainMenuBar);
+        add(menuLayout);
 
         Grid<ItemDto> grid = new Grid<>();
         ItemDto itemDto = new ItemDto();

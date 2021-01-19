@@ -1,9 +1,11 @@
 package com.bgsm.userservice.gui;
 
+import com.bgsm.userservice.gui.forms.MainMenuBar;
 import com.bgsm.userservice.security.CustomRequestCache;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.login.LoginOverlay;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -25,6 +27,10 @@ public class LoginView extends VerticalLayout {
 	@Autowired
 	public LoginView(AuthenticationManager authenticationManager,
                      CustomRequestCache requestCache) {
+		MainMenuBar mainMenuBar = new MainMenuBar();
+		HorizontalLayout menuLayout = new HorizontalLayout();
+		menuLayout.add(mainMenuBar);
+		add(menuLayout);
 
 		login.setOpened(true);
 		login.setTitle("BGSM");

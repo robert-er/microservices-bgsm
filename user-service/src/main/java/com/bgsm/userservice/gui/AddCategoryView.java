@@ -1,6 +1,7 @@
 package com.bgsm.userservice.gui;
 
 import com.bgsm.userservice.dto.ItemCategoryDto;
+import com.bgsm.userservice.gui.forms.MainMenuBar;
 import com.bgsm.userservice.mapper.ItemCategoryMapper;
 import com.bgsm.userservice.service.ItemCategoryService;
 import com.vaadin.flow.component.Text;
@@ -31,6 +32,11 @@ public class AddCategoryView extends VerticalLayout {
 
     @Autowired
     public AddCategoryView(ItemCategoryService itemCategoryService, ItemCategoryMapper itemCategoryMapper) {
+        MainMenuBar mainMenuBar = new MainMenuBar();
+        HorizontalLayout menuLayout = new HorizontalLayout();
+        menuLayout.add(mainMenuBar);
+        add(menuLayout);
+
         ItemCategoryDto itemCategoryDto = new ItemCategoryDto();
 
         Binder<ItemCategoryDto> binder = new Binder<>();

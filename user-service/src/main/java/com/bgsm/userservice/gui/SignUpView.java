@@ -1,6 +1,7 @@
 package com.bgsm.userservice.gui;
 
 import com.bgsm.userservice.dto.AppUserDto;
+import com.bgsm.userservice.gui.forms.MainMenuBar;
 import com.bgsm.userservice.mapper.AppUserMapper;
 import com.bgsm.userservice.model.ERole;
 import com.bgsm.userservice.service.AppUserService;
@@ -32,6 +33,11 @@ public class SignUpView extends VerticalLayout {
 
     @Autowired
     public SignUpView(AppUserService userService, AppUserMapper userMapper) {
+        MainMenuBar mainMenuBar = new MainMenuBar();
+        HorizontalLayout menuLayout = new HorizontalLayout();
+        menuLayout.add(mainMenuBar);
+        add(menuLayout);
+
         FormLayout layoutWithBinder = new FormLayout();
         Binder<AppUserDto> binder = new Binder<>();
         AppUserDto appUserDto = new AppUserDto();

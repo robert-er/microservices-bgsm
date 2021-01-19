@@ -1,6 +1,8 @@
 package com.bgsm.userservice.gui;
 
+import com.bgsm.userservice.gui.forms.MainMenuBar;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.dom.Element;
 import com.vaadin.flow.dom.ElementFactory;
@@ -15,6 +17,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class AdminPanelView extends VerticalLayout {
 
     public AdminPanelView() {
+        MainMenuBar mainMenuBar = new MainMenuBar();
+        HorizontalLayout menuLayout = new HorizontalLayout();
+        menuLayout.add(mainMenuBar);
+        add(menuLayout);
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String username = userDetails.getUsername();

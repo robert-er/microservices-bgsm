@@ -2,6 +2,7 @@ package com.bgsm.userservice.gui;
 
 import com.bgsm.userservice.dto.ItemDto;
 import com.bgsm.userservice.dto.OfferDto;
+import com.bgsm.userservice.gui.forms.MainMenuBar;
 import com.bgsm.userservice.mapper.ItemMapper;
 import com.bgsm.userservice.mapper.OfferMapper;
 import com.bgsm.userservice.service.AppUserService;
@@ -50,6 +51,11 @@ public class AddOfferView extends VerticalLayout {
     public AddOfferView(OfferService offerService, OfferMapper offerMapper,
                         ItemService itemService, ItemMapper itemMapper,
                         AppUserService userService) {
+        MainMenuBar mainMenuBar = new MainMenuBar();
+        HorizontalLayout menuLayout = new HorizontalLayout();
+        menuLayout.add(mainMenuBar);
+        add(menuLayout);
+
         OfferDto offerDto = new OfferDto();
 
         Binder<OfferDto> binder = new Binder<>();
