@@ -54,10 +54,10 @@ public class UserItemsView extends VerticalLayout {
         Grid.Column<ItemDto> descriptionColumn = grid.addColumn(ItemDto::getDescription)
                 .setSortable(true)
                 .setHeader("Description");
-        Grid.Column<ItemDto> minPlayersColumn = grid.addColumn(e -> (int)e.getMinPlayers()).setHeader("Minimum players")
+        Grid.Column<ItemDto> minPlayersColumn = grid.addColumn(e -> (int)e.getMinPlayers()).setHeader("Min players")
                 .setSortable(true)
                 .setHeader("Minimum players");
-        Grid.Column<ItemDto> maxPlayersColumn = grid.addColumn(e -> (int)e.getMaxPlayers()).setHeader("Maximum players")
+        Grid.Column<ItemDto> maxPlayersColumn = grid.addColumn(e -> (int)e.getMaxPlayers()).setHeader("Max players")
                 .setSortable(true)
                 .setHeader("Maximum players");
         Grid.Column<ItemDto> categoryColumn = grid.addColumn(ItemDto::getCategoryName)

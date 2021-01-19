@@ -130,6 +130,5 @@ public class AddSuperuserView extends VerticalLayout {
         return Stream.of(ERole.values())
                 .map(ERole::name)
                 .collect(Collectors.toList());
-
     }
 }
