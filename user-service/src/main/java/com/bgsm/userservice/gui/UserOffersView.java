@@ -2,7 +2,6 @@ package com.bgsm.userservice.gui;
 
 import com.bgsm.userservice.dto.ItemDto;
 import com.bgsm.userservice.dto.OfferDto;
-import com.bgsm.userservice.gui.forms.ItemForm;
 import com.bgsm.userservice.gui.forms.MainMenuBar;
 import com.bgsm.userservice.gui.forms.AddOfferForm;
 import com.bgsm.userservice.mapper.ItemMapper;

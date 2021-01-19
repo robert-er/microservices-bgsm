@@ -27,6 +27,7 @@ public class OfferMapper {
 
     public OfferDto mapToOfferDto(Offer offer) {
         return OfferDto.builder()
+                .id(offer.getId())
                 .itemId(offer.getItem().getId())
                 .dateFrom(offer.getDateFrom())
                 .dateTo(offer.getDateTo())

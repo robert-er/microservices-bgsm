@@ -9,13 +9,10 @@ import com.bgsm.userservice.service.ItemService;
 import com.bgsm.userservice.service.OfferService;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Anchor;
-import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
@@ -90,11 +87,19 @@ public class CategoryView extends VerticalLayout implements HasUrlParameter<Stri
         Grid.Column<OfferDto> priceColumn = grid.addColumn(OfferDto::getPrice)
                 .setSortable(true)
                 .setHeader("Price");
-        grid.addColumn(new ComponentRenderer<>(item -> {
-            Anchor anchor = new Anchor();
-            anchor.setHref("item.getUrl");
-            return anchor;
-        })).setHeader("Link");
+
+        grid.addColumn(OfferDto::getId)
+                .setSortable(true)
+                .setHeader("Offer ID");
+
+        Grid.Column<OfferDto> editorColumn = grid.addComponentColumn(edited -> {
+            Button view = new Button("View");
+            view.addClickListener(e -> {
+             UI.getCurrent().getPage().open("offerview/" + edited.getId(), String.valueOf(edited.getId()));
+            });
+            return view;
+        });
+
         return grid;
     }
 }
