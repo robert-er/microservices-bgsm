@@ -27,13 +27,16 @@ public class Offer {
     private LocalDate dateTo;
     private String location;
     private BigDecimal price;
+    private EOfferStatus status;
 
     @Builder
-    public Offer(Item item, LocalDate dateFrom, LocalDate dateTo, String location, BigDecimal price) {
+    public Offer(Item item, LocalDate dateFrom, LocalDate dateTo,
+                 String location, BigDecimal price, EOfferStatus status) {
         this.item = item;
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
         this.location = location;
         this.price = price;
+        this.status = status;
     }
 }

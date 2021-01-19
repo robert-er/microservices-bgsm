@@ -1,5 +1,6 @@
 package com.bgsm.userservice.model;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,4 +24,10 @@ public class Order {
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="cart_id")
     private Cart cart;
+
+    @Builder
+    public Order(Offer offer, Cart cart) {
+        this.offer = offer;
+        this.cart = cart;
+    }
 }

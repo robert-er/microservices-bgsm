@@ -1,5 +1,6 @@
 package com.bgsm.userservice.model;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,4 +28,9 @@ public class Cart {
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
     private List<Order> orders = new ArrayList<>();
+
+    @Builder
+    public Cart(AppUser user) {
+        this.user = user;
+    }
 }
