@@ -27,6 +27,10 @@ public class MainMenuBar extends FormLayout {
         MenuItem userItemsMenu = userSubMenu.addItem("");
         userItemsMenu.getElement().appendChild(userItemsView);
 
+        Element userOffersView = ElementFactory.createAnchor("useroffers", "Your offers");
+        MenuItem userOffersMenu = userSubMenu.addItem("");
+        userOffersMenu.getElement().appendChild(userOffersView);
+
         Element addItem = ElementFactory.createAnchor("additem", "Add new game");
         MenuItem addItemMenu = userSubMenu.addItem("");
         addItemMenu.getElement().appendChild(addItem);

@@ -27,7 +27,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Route("addcategory")
-@Secured("ROLE_ADMIN")
+@Secured("ROLE_MODERATOR")
 public class AddCategoryView extends VerticalLayout {
 
     @Autowired

@@ -31,7 +31,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Route("useritems")
-@Secured("ROLE_USER")
+@Secured("USER")
 public class UserItemsView extends VerticalLayout {
 
     @Autowired
@@ -189,12 +189,6 @@ public class UserItemsView extends VerticalLayout {
 
         add(mainContent);
         setSizeFull();
-    }
-
-    private void refresh(Grid grid, ItemService itemService, ItemMapper itemMapper, AppUserService userService) {
-        List<ItemDto> userItems = itemMapper.mapToItemDtoList(itemService.findByUserId(getCurrentUserId(userService)));
-        grid.setItems(userItems);
-
     }
 
     private Long getCurrentUserId(AppUserService userService) {

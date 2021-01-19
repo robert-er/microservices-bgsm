@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class OfferDto {
 
+    private Long id;
     private Long itemId;
     private LocalDate dateFrom;
     private LocalDate dateTo;

@@ -15,6 +15,7 @@ public class ItemService {
 
     private final ItemRepository repository;
     private final AppUserService appUserService;
+    private final ItemCategoryService categoryService;
 
     public Item findById(Long id) throws NotFoundException {
         return repository.findById(id).orElseThrow(() -> new NotFoundException("item not found, id: " + id));
@@ -39,5 +40,9 @@ public class ItemService {
     public Item findByName(String name) {
         return repository.findByName(name)
                 .orElseThrow(() -> new NotFoundException("Item with name " + name + " not found"));
+    }
+
+    public List<Item> findByCategory(String category) {
+        return repository.findByCategory(categoryService.findByName(category)).orElse(new ArrayList<>());
     }
 }

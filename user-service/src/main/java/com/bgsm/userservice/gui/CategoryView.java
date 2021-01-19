@@ -5,12 +5,23 @@ import com.bgsm.userservice.gui.forms.MainMenuBar;
 import com.bgsm.userservice.service.ItemCategoryService;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.BeforeEvent;
+import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@Route
-public class MainView extends VerticalLayout {
+@Route("category")
+public class CategoryView extends VerticalLayout implements HasUrlParameter<String> {
 
-    public MainView(ItemCategoryService itemCategoryService) {
+    private String categoryName;
+
+    @Override
+    public void setParameter(BeforeEvent beforeEvent, String s) {
+        categoryName = s;
+    }
+
+    @Autowired
+    public CategoryView(ItemCategoryService itemCategoryService) {
         MainMenuBar mainMenuBar = new MainMenuBar();
         HorizontalLayout menuLayout = new HorizontalLayout();
         menuLayout.add(mainMenuBar);
@@ -20,5 +31,7 @@ public class MainView extends VerticalLayout {
         HorizontalLayout categoryLayout = new HorizontalLayout();
         categoryLayout.add(categoryForm);
         add(categoryLayout);
+
+
     }
 }

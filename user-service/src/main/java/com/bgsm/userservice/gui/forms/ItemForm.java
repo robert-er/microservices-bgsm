@@ -31,7 +31,7 @@ public class ItemForm extends FormLayout {
     @Autowired
     public ItemForm(ItemMapper itemMapper, ItemService itemService, ItemCategoryService itemCategoryService) {
         Label welcomeLabel = new Label();
-        welcomeLabel.setText("Add new item");
+        welcomeLabel.setText("Add new game");
 
         List<String> categories = getCategoryList(itemCategoryService);
 
@@ -103,7 +103,7 @@ public class ItemForm extends FormLayout {
                 itemDto.setUserName(username);
 
                 ItemDto returnedItemDto = itemMapper.mapToItemDto(itemService.save(itemMapper.mapToItem(itemDto)));
-                infoLabel.setText("Item:  " + returnedItemDto.getName() + " has been created.");
+                infoLabel.setText("Game:  " + returnedItemDto.getName() + " has been created.");
                 UI.getCurrent().getPage().reload();
             } else {
                 BinderValidationStatus<ItemDto> validate = binder.validate();
