@@ -44,7 +44,7 @@ class AppUserServiceTest {
     }
 
     @Test
-    public void findByName() {
+    public void shouldFindByName() {
         //Given
         String username = "JerryTest";
         AppUser user = createUser(username);
@@ -57,7 +57,7 @@ class AppUserServiceTest {
     }
 
     @Test
-    public void save() {
+    public void shouldSave() {
         //Given
         AppUser user = createUser("SaveTest");
         //When
@@ -69,7 +69,7 @@ class AppUserServiceTest {
     }
 
     @Test
-    public void deleteById() {
+    public void shouldDeleteById() {
         //Given
         AppUser user = createUser("DeleteTest");
         Long userId = userService.save(user).getId();
@@ -80,7 +80,7 @@ class AppUserServiceTest {
     }
 
     @Test
-    public void getAll() {
+    public void shouldGetAll() {
         //Given
         AppUser user1 = createUser("User1getAllTest");
         AppUser user2 = createUser("User2getAllTest");
