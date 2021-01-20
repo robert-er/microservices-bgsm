@@ -33,8 +33,10 @@ public class CartService {
     }
 
     public Cart createOrGetCart(Long userId) {
-        return repository.findByUser(userService.findById(userId)).orElse(Cart.builder()
-                .user(userService.findById(userId))
-                .build());
+        AppUser user = userService.findById(userId);
+        return repository.findByUser(user)
+                .orElse(save(Cart.builder()
+                .user(user)
+                .build()));
     }
 }
