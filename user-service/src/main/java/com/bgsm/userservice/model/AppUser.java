@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Table(uniqueConstraints = {
@@ -47,5 +48,18 @@ public class AppUser {
         this.password = password;
         this.email = email;
         this.roles = roles;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AppUser appUser = (AppUser) o;
+        return username.equals(appUser.username) && password.equals(appUser.password) && email.equals(appUser.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, password, email);
     }
 }
