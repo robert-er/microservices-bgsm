@@ -22,16 +22,19 @@ public class OfferMapper {
                 .dateTo(offerDto.getDateTo())
                 .location(offerDto.getLocation())
                 .price(offerDto.getPrice())
+                .status(offerDto.getStatus())
                 .build();
     }
 
     public OfferDto mapToOfferDto(Offer offer) {
         return OfferDto.builder()
+                .id(offer.getId())
                 .itemId(offer.getItem().getId())
                 .dateFrom(offer.getDateFrom())
                 .dateTo(offer.getDateTo())
                 .location(offer.getLocation())
                 .price(offer.getPrice())
+                .status(offer.getStatus())
                 .build();
     }
 

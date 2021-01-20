@@ -4,16 +4,11 @@ import com.bgsm.userservice.dto.AppUserDto;
 import com.bgsm.userservice.mapper.AppUserMapper;
 import com.bgsm.userservice.model.AppUser;
 import com.bgsm.userservice.model.Role;
-import com.bgsm.userservice.security.UserDetailsServiceImpl;
 import com.bgsm.userservice.security.WebSecurityConfig;
 import com.bgsm.userservice.service.AppUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,8 +22,6 @@ public class UserController {
     private final AppUserService userService;
     private final AppUserMapper userMapper;
     private final WebSecurityConfig webSecurityConfig;
-    private final AuthenticationManager authenticationManager;
-
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")

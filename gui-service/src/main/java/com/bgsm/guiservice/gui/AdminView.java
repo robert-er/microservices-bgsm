@@ -6,7 +6,7 @@ import com.vaadin.flow.router.Route;
 import org.springframework.security.access.annotation.Secured;
 
 @Route
-@Secured("ROLE_Admin")
+@Secured("ROLE_ADMIN")
 public class AdminView extends VerticalLayout {
 
     public AdminView() {

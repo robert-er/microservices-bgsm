@@ -1,11 +1,9 @@
 package com.bgsm.userservice.service;
 
 import com.bgsm.userservice.exception.NotFoundException;
-import com.bgsm.userservice.model.AppUser;
 import com.bgsm.userservice.model.Item;
 import com.bgsm.userservice.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,6 +15,7 @@ public class ItemService {
 
     private final ItemRepository repository;
     private final AppUserService appUserService;
+    private final ItemCategoryService categoryService;
 
     public Item findById(Long id) throws NotFoundException {
         return repository.findById(id).orElseThrow(() -> new NotFoundException("item not found, id: " + id));
@@ -36,5 +35,14 @@ public class ItemService {
 
     public List<Item> findByUserId(Long id) {
         return repository.findByUser(appUserService.findById(id)).orElse(new ArrayList<>());
+    }
+
+    public Item findByName(String name) {
+        return repository.findByName(name)
+                .orElseThrow(() -> new NotFoundException("Item with name " + name + " not found"));
+    }
+
+    public List<Item> findByCategory(String category) {
+        return repository.findByCategory(categoryService.findByName(category)).orElse(new ArrayList<>());
     }
 }

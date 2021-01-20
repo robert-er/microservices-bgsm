@@ -1,6 +1,7 @@
 package com.bgsm.userservice.repository;
 
 import com.bgsm.userservice.model.AppUser;
+import com.bgsm.userservice.model.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,8 +10,7 @@ import java.util.Optional;
 
 @Transactional
 @Repository
-public interface AppUserRepository extends JpaRepository<AppUser, Long> {
+public interface CartRepository extends JpaRepository<Cart, Long> {
 
-    Optional<AppUser> findByUsername(String username);
-    Optional<AppUser> findByEmailOrUsername(String email, String username);
+    Optional<Cart> findByUser(AppUser user);
 }

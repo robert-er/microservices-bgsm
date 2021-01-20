@@ -2,12 +2,15 @@ package com.bgsm.userservice.dto;
 
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ItemCategoryDto {
+public class CartDto {
 
-    private String name;
+    private Long userId;
+    private List<OrderDto> orders;
 }

@@ -1,6 +1,8 @@
 package com.bgsm.userservice.service;
 
 import com.bgsm.userservice.exception.NotFoundException;
+import com.bgsm.userservice.model.EOfferStatus;
+import com.bgsm.userservice.model.Item;
 import com.bgsm.userservice.model.Offer;
 import com.bgsm.userservice.repository.OfferRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,9 +33,33 @@ public class OfferService {
         return repository.findAll();
     }
 
-    public List<Offer> findByCategory(Long categoryId) {
+    public List<Offer> findByCategoryId(Long categoryId) {
         return repository.findAll().stream()
                 .filter(offer -> offer.getItem().getCategory().getId().equals(categoryId))
                 .collect(Collectors.toList());
+    }
+
+    public List<Offer> findByCategoryName(String categoryName) {
+        return repository.findAll().stream()
+                .filter(offer -> offer.getItem().getCategory().getName().equals(categoryName))
+                .filter(offer -> offer.getStatus().equals(EOfferStatus.ACTIVE))
+                .collect(Collectors.toList());
+    }
+
+    public List<Offer> findByUserId(Long userId) {
+        return getAll().stream()
+                .filter(offer -> offer.getItem().getUser().getId().equals(userId))
+                .collect(Collectors.toList());
+    }
+
+    public Offer findByItem(Item item) {
+        return repository.findByItem(item).orElseThrow(() -> new NotFoundException("Offer with item " +
+                item.getName() + " not found"));
+    }
+
+    public Offer changeOfferStatus(Long offerId, EOfferStatus status) {
+        Offer offer = findById(offerId);
+        offer.setStatus(status);
+        return save(offer);
     }
 }

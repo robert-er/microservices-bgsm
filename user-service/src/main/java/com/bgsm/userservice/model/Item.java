@@ -1,13 +1,13 @@
 package com.bgsm.userservice.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import java.util.Objects;
 
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = "name")
+})
 @Entity(name = "items")
 @Getter
 @Setter
@@ -20,10 +20,10 @@ public class Item {
 
     private String name;
     private String description;
-    private int minPlayers;
-    private int maxPlayers;
+    private double minPlayers;
+    private double maxPlayers;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "category_id")
     private ItemCategory category;
 
@@ -33,7 +33,7 @@ public class Item {
 
     @Builder
     public Item(String name, String description,
-                int minPlayers, int maxPlayers,
+                double minPlayers, double maxPlayers,
                 ItemCategory category, AppUser user) {
         this.name = name;
         this.description = description;
@@ -41,5 +41,21 @@ public class Item {
         this.maxPlayers = maxPlayers;
         this.category = category;
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return Double.compare(item.minPlayers, minPlayers) == 0 && Double.compare(item.maxPlayers, maxPlayers) == 0 &&
+                Objects.equals(name, item.name) && Objects.equals(description, item.description) &&
+                Objects.equals(category, item.category) &&
+                Objects.equals(user, item.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description, minPlayers, maxPlayers, category, user);
     }
 }
