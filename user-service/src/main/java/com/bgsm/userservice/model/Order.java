@@ -21,7 +21,7 @@ public class Order {
     @JoinColumn(name = "offer_id")
     private Offer offer;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name="cart_id")
     private Cart cart;
 

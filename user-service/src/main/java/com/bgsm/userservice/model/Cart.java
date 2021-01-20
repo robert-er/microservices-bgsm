@@ -26,7 +26,7 @@ public class Cart {
 
     @OneToMany(targetEntity = Order.class,
             mappedBy = "cart",
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.MERGE,
             fetch = FetchType.EAGER)
     private List<Order> orders = new ArrayList<>();
 
