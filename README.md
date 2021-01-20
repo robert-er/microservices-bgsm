@@ -62,4 +62,4 @@ offered games etc.
 ```
 
 ### 8. Troubleshooting 
-If You encounter any problems regarding operation, please let us know. 
+If You encounter any problems regarding operation, please let me know. 
