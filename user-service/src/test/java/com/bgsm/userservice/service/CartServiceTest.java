@@ -119,10 +119,10 @@ class CartServiceTest {
     @Test
     public void shouldGetCart() {
         //Given
-        AppUser user = createUser("UserForGetCart");
+        AppUser user = createUser("UserForGetCartService3");
         Long userId = userService.save(user).getId();
         Cart cart = createCart(user);
-        Cart savedCart = cartService.save(cart);
+        cartService.save(cart);
         //When
         Cart getExistedCart = cartService.createOrGetCart(userId);
         //Then

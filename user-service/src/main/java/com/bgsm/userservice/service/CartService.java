@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,9 +35,14 @@ public class CartService {
 
     public Cart createOrGetCart(Long userId) {
         AppUser user = userService.findById(userId);
-        return repository.findByUser(user)
-                .orElse(save(Cart.builder()
-                .user(user)
-                .build()));
+        Optional<Cart> savedCart = repository.findByUser(user);
+        if(savedCart.isPresent()) {
+            return savedCart.get();
+        } else {
+            Cart cart = Cart.builder()
+                    .user(user)
+                    .build();
+            return save(cart);
+        }
     }
 }
