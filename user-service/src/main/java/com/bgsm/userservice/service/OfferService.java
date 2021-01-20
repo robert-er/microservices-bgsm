@@ -1,15 +1,14 @@
 package com.bgsm.userservice.service;
 
 import com.bgsm.userservice.exception.NotFoundException;
-import com.bgsm.userservice.model.EOfferStatus;
-import com.bgsm.userservice.model.Item;
-import com.bgsm.userservice.model.Offer;
+import com.bgsm.userservice.model.*;
 import com.bgsm.userservice.repository.OfferRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
