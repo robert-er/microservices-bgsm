@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity(name = "offers")
 @Getter
@@ -38,5 +39,22 @@ public class Offer {
         this.location = location;
         this.price = price;
         this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Offer offer = (Offer) o;
+        return item.equals(offer.item) &&
+                dateFrom.equals(offer.dateFrom) &&
+                dateTo.equals(offer.dateTo) &&
+                location.equals(offer.location) &&
+                price.equals(offer.price);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(item, dateFrom, dateTo, location, price);
     }
 }
