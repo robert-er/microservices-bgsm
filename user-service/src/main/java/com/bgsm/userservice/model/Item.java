@@ -23,7 +23,7 @@ public class Item {
     private double minPlayers;
     private double maxPlayers;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH})
     @JoinColumn(name = "category_id")
     private ItemCategory category;
 
@@ -32,9 +32,10 @@ public class Item {
     private AppUser user;
 
     @Builder
-    public Item(String name, String description,
+    public Item(Long id, String name, String description,
                 double minPlayers, double maxPlayers,
                 ItemCategory category, AppUser user) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.minPlayers = minPlayers;

@@ -6,6 +6,7 @@ import com.bgsm.userservice.gui.forms.MainMenuBar;
 import com.bgsm.userservice.gui.forms.AddOfferForm;
 import com.bgsm.userservice.mapper.ItemMapper;
 import com.bgsm.userservice.mapper.OfferMapper;
+import com.bgsm.userservice.model.EOfferStatus;
 import com.bgsm.userservice.service.AppUserService;
 import com.bgsm.userservice.service.ItemService;
 import com.bgsm.userservice.service.OfferService;
@@ -20,6 +21,7 @@ import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.BigDecimalField;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
@@ -64,6 +66,7 @@ public class UserOffersView extends VerticalLayout {
                 .addColumn(offerDto1 -> itemService.findById(offerDto1.getItemId()).getName())
                 .setSortable(true)
                 .setHeader("Name");
+
         Grid.Column<OfferDto> dateFromColumn = grid.addColumn(OfferDto::getDateFrom)
                 .setSortable(true)
                 .setHeader("Date From");
@@ -76,6 +79,9 @@ public class UserOffersView extends VerticalLayout {
         Grid.Column<OfferDto> priceColumn = grid.addColumn(OfferDto::getPrice)
                 .setSortable(true)
                 .setHeader("Price");
+        Grid.Column<OfferDto> statusColumn = grid.addColumn(OfferDto::getStatus)
+                .setSortable(true)
+                .setHeader("Status");
 
         Div validationStatus = new Div();
         validationStatus.setId("validation");
@@ -92,7 +98,9 @@ public class UserOffersView extends VerticalLayout {
 
         TextField location = new TextField();
 
-        Paragraph price = new Paragraph();
+        BigDecimalField price = new BigDecimalField();
+
+        TextField offerStatus = new TextField();
 
         MenuBar menuBarItem = new MenuBar();
         MenuItem item = menuBarItem.addItem("Item");
@@ -107,24 +115,32 @@ public class UserOffersView extends VerticalLayout {
                     itemId[0] = element.getId();
                 }));
 
-        binder.forField(selectedItemField)
-                .withValidator(num -> num.longValue() > 0L,
-                        "Please select item");
+        binder.forField(nameField)
+                .withValidator(new StringLengthValidator("Name length must have at least 1 character.", 1, null))
+                .bind(offerDto1 -> itemService.findById(offerDto1.getItemId()).getName(),
+                        (offerDto1, name) -> itemService.findById(offerDto1.getItemId()).setName(name));
         binder.forField(dateFrom)
                 .withValidator(min -> min.isBefore(dateTo.getValue()) || min.isEqual(dateTo.getValue()),
                         "Start date must be lower or equal end date")
                 .bind(OfferDto::getDateFrom, OfferDto::setDateFrom);
+        dateFromColumn.setEditorComponent(dateFrom);
         binder.forField(dateTo)
                 .withValidator(max -> max.isAfter(dateFrom.getValue()) || max.isEqual(dateFrom.getValue()),
                         "End date must be higher or equal start date")
                 .bind(OfferDto::getDateTo, OfferDto::setDateTo);
+        dateToColumn.setEditorComponent(dateTo);
         binder.forField(location)
                 .withValidator(new StringLengthValidator(
                         "Please add the location", 1, null))
                 .bind(OfferDto::getLocation, OfferDto::setLocation);
-        binder.forField(selectedItemField)
-                .withValidator(num -> num.longValue() > 0L,
-                        "Please select item");
+        locationColumn.setEditorComponent(location);
+        binder.forField(price)
+                .bind(OfferDto::getPrice, OfferDto::setPrice);
+        priceColumn.setEditorComponent(price);
+        binder.forField(offerStatus)
+                .bind(offerDto1 -> offerDto1.getStatus().toString(),
+                        (offerDto2, status1) -> offerDto2.setStatus(EOfferStatus.valueOf(status1)));
+        statusColumn.setEditorComponent(offerStatus);
 
         Collection<Button> editButtons = Collections
                 .newSetFromMap(new WeakHashMap<>());
@@ -139,6 +155,7 @@ public class UserOffersView extends VerticalLayout {
                 offerDto.setDateTo(edited.getDateTo());
                 offerDto.setLocation(edited.getLocation());
                 offerDto.setPrice(edited.getPrice());
+                offerDto.setStatus(edited.getStatus());
                 editor.editItem(edited);
                 nameField.focus();
             });

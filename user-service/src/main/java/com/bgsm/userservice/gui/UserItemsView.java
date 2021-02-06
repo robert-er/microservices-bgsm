@@ -7,6 +7,7 @@ import com.bgsm.userservice.mapper.ItemMapper;
 import com.bgsm.userservice.service.AppUserService;
 import com.bgsm.userservice.service.ItemCategoryService;
 import com.bgsm.userservice.service.ItemService;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.editor.Editor;
@@ -151,7 +152,7 @@ public class UserItemsView extends VerticalLayout {
 
         Button save = new Button("Save", e -> {
             if (binder.writeBeanIfValid(itemDto)) {
-                ItemDto returnedItemDto = itemMapper.mapToItemDto(itemService.save(itemMapper.mapToItem(itemDto)));
+                ItemDto returnedItemDto = itemMapper.mapToItemDto(itemService.update(itemMapper.mapToItem(itemDto)));
             } else {
                 BinderValidationStatus<ItemDto> validate = binder.validate();
                 String errorText = validate.getFieldValidationStatuses()
@@ -161,6 +162,7 @@ public class UserItemsView extends VerticalLayout {
                         .collect(Collectors.joining(", "));
             }
             editor.save();
+            UI.getCurrent().getPage().reload();
         });
         save.addClassName("save");
 

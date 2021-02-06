@@ -27,7 +27,7 @@ public class ItemCategory {
 
     @OneToMany(targetEntity = Item.class,
             mappedBy = "category",
-            cascade = CascadeType.MERGE,
+            cascade = {CascadeType.MERGE,CascadeType.REFRESH},
             fetch = FetchType.LAZY)
     private List<Item> items = new ArrayList<>();
 
