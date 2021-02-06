@@ -3,10 +3,12 @@ package com.bgsm.userservice.service;
 import com.bgsm.userservice.exception.NotFoundException;
 import com.bgsm.userservice.model.AppUser;
 import com.bgsm.userservice.model.Cart;
+import com.bgsm.userservice.model.Order;
 import com.bgsm.userservice.repository.CartRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +45,15 @@ public class CartService {
                     .user(user)
                     .build();
             return save(cart);
+        }
+    }
+
+    public List<Order> getUserOrders(Long userId) {
+        Optional<Cart> savedCart = repository.findByUser(userService.findById(userId));
+        if(savedCart.isPresent()) {
+            return savedCart.get().getOrders();
+        } else {
+            return new ArrayList<>();
         }
     }
 }

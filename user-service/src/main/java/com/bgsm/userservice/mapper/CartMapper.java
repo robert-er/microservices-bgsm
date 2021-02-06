@@ -21,7 +21,6 @@ public class CartMapper {
     public CartDto mapToCartDto(Cart cart) {
         return CartDto.builder()
                 .userId(cart.getUser().getId())
-
                 .build();
     }
 }

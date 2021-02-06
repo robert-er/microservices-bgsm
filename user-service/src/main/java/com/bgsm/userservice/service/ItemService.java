@@ -25,6 +25,17 @@ public class ItemService {
         return repository.save(item);
     }
 
+    public Item update(Item item) {
+        Item itemFromDB = findById(item.getId());
+        itemFromDB.setName(item.getName());
+        itemFromDB.setDescription(item.getDescription());
+        itemFromDB.setMinPlayers(item.getMinPlayers());
+        itemFromDB.setMaxPlayers(item.getMaxPlayers());
+        itemFromDB.setCategory(item.getCategory());
+        itemFromDB.setUser(item.getUser());
+        return save(itemFromDB);
+    }
+
     public void deleteById(Long id) {
         repository.deleteById(id);
     }

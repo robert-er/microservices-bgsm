@@ -31,8 +31,9 @@ public class Offer {
     private EOfferStatus status;
 
     @Builder
-    public Offer(Item item, LocalDate dateFrom, LocalDate dateTo,
+    public Offer(Long id, Item item, LocalDate dateFrom, LocalDate dateTo,
                  String location, BigDecimal price, EOfferStatus status) {
+        this.id = id;
         this.item = item;
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
