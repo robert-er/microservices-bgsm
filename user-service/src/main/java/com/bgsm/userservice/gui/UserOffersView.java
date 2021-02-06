@@ -17,7 +17,6 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.editor.Editor;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
